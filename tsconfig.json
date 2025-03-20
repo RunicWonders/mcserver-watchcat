@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+
+		"target": "es2017",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+
+		"lib": ["DOM", "ESNext"],
+		"types": ["node", "vite/client"]
+	}
+}

@@ -1,0 +1,24 @@
+{
+  "title": "MCServer WatchCat",
+  "desc": "Observe Minecraft server online players at any time, anywhere.",
+  "server-ip": "Server IP address",
+  "server-port": "Server port | If the server ip has included a port number, pls don't input here.",
+  "watch-btn": "Start Observing | Stop Observing",
+  "refresh-interval": "per {refresh} seconds refresh rate",
+  "field-required": "Required",
+  "invalid-ip": "Invalid IP!",
+  "invalid-port": "Invalid port!",
+  "invalid-server": "Invalid server address!",
+  "error-msgs": "( •́ _ •̀)？ Meow, server not found, are you forget start the server? | ∑(￣□￣;) Wow, no online players now meow!",
+  "players-list": "Online Players ({current}/{max}):",
+  "online-player": "Genuine",
+  "online-server": "Genuine Server",
+  "save": "OK",
+
+  "___": "settings",
+  "show-FP": "Show fake players",
+  "show-player-uuid": "Show player UUID",
+  "check-player-genuine": "Check player genuine (SIP)",
+  "auto-refresh": "Auto refresh",
+  "refresh-rate": "Refresh rate"
+}

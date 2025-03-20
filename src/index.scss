@@ -1,0 +1,25 @@
+.justify-between {
+	justify-content: space-between;
+}
+
+#main {
+	padding: 8px;
+	position: fixed;
+	top: 8%;
+	left: calc(50% - 25%);
+	width: 50%;
+	height: 80%;
+	box-sizing: border-box;
+	overflow: auto;
+}
+
+html {
+	overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+	#main {
+		width: 90%;
+		left: calc(50% - 45%);
+	}
+}

@@ -1,0 +1,24 @@
+{
+  "title": "視奸伺服器",
+  "desc": "隨時隨地視奸伺服器里每個在綫的玩家。",
+  "server-ip": "伺服器 IP 地址",
+  "server-port": "伺服器端口 | 如果你的伺服器 IP 裏面包含了端口號就不用在這裏輸入了",
+  "watch-btn": "開始視奸 | 停止視奸",
+  "refresh-interval": "每{refresh}秒更新",
+  "field-required": "必填字段",
+  "invalid-ip": "無效的 IP 地址",
+  "invalid-port": "無效的端口號碼",
+  "invalid-server": "無效的伺服器",
+  "error-msgs": "( •́ _ •̀)？ 哦嚯, 伺服器没找到喔, 你是不是忘記開啟伺服器了嘞? | ∑(￣□￣;) 啊嘞嘞, 伺服器裏面沒有在綫玩家喔!",
+  "players-list": "目前在綫玩家 ({current}/{max}):",
+  "online-player": "正版玩家",
+  "online-server": "正版伺服器",
+
+
+  "___": "settings",
+  "show-FP": "顯示伺服器假人",
+  "show-player-uuid": "顯示玩家 UUID",
+  "check-player-genuine": "檢查是不是正版玩家 (沒有實現)",
+  "auto-refresh": "自動刷新",
+  "refresh-rate": "刷新間隔"
+}
