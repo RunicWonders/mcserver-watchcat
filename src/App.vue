@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { loadLocaleMessages, setLocale, locales } from './i18n';
+import i18n, { loadLocaleMessages, setLocale, locales } from './i18n';
 import { useTheme } from 'vuetify';
 import mcqueryOutsideapi from './libs/mcquery-outsideapi';
 
@@ -69,8 +68,8 @@ function saveSettings() {
 	location.reload();
 }
 
-function switchLocale(locale: string) {
-	loadLocaleMessages(locale);
+async function switchLocale(locale: string) {
+	if(!i18n.global.availableLocales.includes(locale)) await loadLocaleMessages(locale);
 	setLocale(locale);
 }
 
