@@ -7,6 +7,7 @@ import mcqueryOutsideapi from './libs/mcquery-outsideapi';
 async function checkSettings() {
 	const old_ = JSON.parse(localStorage.getItem('settings') || 'false');
 	const new_ = (await import('./libs/defaultConfig')).default;
+	if(!old_) return new_;
 	for(const key in new_) {
 		if(!old_.hasOwnProperty(key)) old_[key] = new_[key];
 	}
