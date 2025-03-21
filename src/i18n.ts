@@ -4,7 +4,8 @@ import {createI18n} from 'vue-i18n';
 const i18n = createI18n({
 	locale: navigator.language || 'en-US',
 	fallbackLocale: 'en-US',
-	messages: {}
+	messages: {},
+	legacy: false,
 });
 
 export async function loadLocaleMessages(locale: string) {

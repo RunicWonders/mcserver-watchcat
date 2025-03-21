@@ -1,6 +1,7 @@
 {
   "title": "MCServer WatchCat",
   "desc": "Observe Minecraft server online players at any time, anywhere.",
+  "server": "Server Config",
   "server-ip": "Server IP address",
   "server-port": "Server port | If the server ip has included a port number, pls don't input here.",
   "watch-btn": "Start Observing | Stop Observing",
@@ -11,14 +12,21 @@
   "invalid-server": "Invalid server address!",
   "error-msgs": "( •́ _ •̀)？ Meow, server not found, are you forget start the server? | ∑(￣□￣;) Wow, no online players now meow!",
   "players-list": "Online Players ({current}/{max}):",
+  "bedrock-player": "Bedrock Player",
   "online-player": "Genuine",
   "online-server": "Genuine Server",
   "save": "OK",
 
   "___": "settings",
+  "auto-unfold-server-cfg": "Auto unfold server panel",
+  "bedrock-player-use-geyser-icon": "Use Geyser icon for Bedrock players",
   "show-FP": "Show fake players",
   "show-player-uuid": "Show player UUID",
   "check-player-genuine": "Check player genuine (SIP)",
   "auto-refresh": "Auto refresh",
-  "refresh-rate": "Refresh rate"
+  "refresh-rate": "Refresh rate",
+  "default-server-ip": "Default server IP",
+  "default-server-port": "Default server port",
+  "advanced": "Advanced",
+  "use-proxy-api": "Use proxy API (Beta)"
 }

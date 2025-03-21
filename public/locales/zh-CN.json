@@ -1,6 +1,7 @@
 {
   "title": "视奸服务器",
   "desc": "在线视奸服务器里的在线玩家",
+  "server": "配置服务器",
   "server-ip": "服务器 IP 地址",
   "server-port": "服务器端口 | 如果 IP 地址中含有端口, 则请忽略此项",
   "watch-btn": "开始视奸 | 停止视奸",
@@ -11,11 +12,14 @@
   "invalid-server": "无效的服务器",
   "error-msgs": "( •́ _ •̀)？ 哎呀呀, 服务器没找到, 你是不是忘记启动服务器了喵? | ∑(￣□￣;) 啊嘞嘞, 目前没有在线玩家喵!",
   "players-list": "当前在线玩家 ({current}/{max}):",
+  "bedrock-player": "基岩版玩家",
   "online-player": "正版",
   "online-server": "正版服务器",
 
 
   "___": "settings",
+  "auto-unfold-server-cfg": "自动展开服务器配置面板",
+  "bedrock-player-use-geyser-icon": "基岩版玩家使用 Geyser 图标",
   "show-FP": "显示假人",
   "show-player-uuid": "显示玩家 UUID",
   "check-player-genuine": "检查是否为正版玩家 (还未实现)",
