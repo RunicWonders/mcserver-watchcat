@@ -18,6 +18,7 @@ let theme = useTheme();
 
 const showSettings = ref(false);
 const isLoaded = ref(false);
+const isMobile = ref(false);
 const settings = ref({} as any);
 
 const ip = ref('');
@@ -43,7 +44,6 @@ async function updateServer() {
 		const data = await mcqueryOutsideapi(0, ip.value, port.value, settings.value.useProxyApi);
 		server.value = await (await import('./libs/parseServerData')).default(data);
 		console.log('[app] Server data updated:', server.value);
-		console.log(server.value.players.list)
 		isLoaded.value = true;
 	} catch(e: any) {
 		console.error('[app] Error while updating server data:', e.message);
@@ -81,6 +81,10 @@ onMounted(async() => {
 	updateServer();
 	if(!import.meta.env.DEV && settings.value.autoRefresh) // 本地dev环境的话会因为hmr而重复刷新
 		setInterval(() => {updateServer();}, settings.value.refreshInterval * 1000);
+	window.addEventListener('resize', () => {
+		isMobile.value = window.innerWidth < 768;
+	});
+	isMobile.value = window.innerWidth < 768;
 });
 
 </script>
@@ -96,7 +100,27 @@ onMounted(async() => {
 	>
 		<span class="d-flex justify-between align-center">
 			<h1 class="text-h5">{{ $t('title') }}</h1>
-			<span>
+			<v-btn variant="plain" icon="mdi-dots-vertical" v-if="isMobile">
+				<v-icon>mdi-dots-vertical</v-icon>
+				<v-menu bottom left activator="parent">
+					<v-list>
+						<v-btn variant="plain" icon="mdi-refresh" @click="updateServer"></v-btn>
+						<v-btn variant="plain" icon="mdi-cog" @click="showSettings = true"></v-btn>
+						<v-btn variant="plain" icon="mdi-theme-light-dark" @click="switchTheme"></v-btn>
+						<v-btn variant="plain" icon="mdi-translate">
+							<v-icon>mdi-translate</v-icon>
+							<v-menu bottom activator="parent">
+								<v-list>
+									<v-list-item v-for="locale in locales" @click="switchLocale(locale[0])">
+										<v-list-item-title>{{ locale[1] }}</v-list-item-title>
+									</v-list-item>
+								</v-list>
+							</v-menu>
+						</v-btn>
+					</v-list>
+				</v-menu>
+			</v-btn>
+			<span v-else>
 				<v-btn variant="plain" icon="mdi-refresh" @click="updateServer"></v-btn>
 				<v-btn variant="plain" icon="mdi-cog" @click="showSettings = true"></v-btn>
 				<v-btn variant="plain" icon="mdi-theme-light-dark" @click="switchTheme"></v-btn>
@@ -131,7 +155,7 @@ onMounted(async() => {
 		</v-expansion-panels>
 
 		<v-container>
-			<v-card :loading="!isLoaded">
+			<v-card id="server-card" :loading="!isLoaded">
 				<span class="card-title d-flex align-center">
 					<v-avatar size="64" :image="server.icon"></v-avatar>
 					<span>
@@ -170,7 +194,7 @@ onMounted(async() => {
 
 		<v-dialog
 			v-model="showSettings"
-			max-width="400"
+			max-width="800"
 			persistent
 		>
 
