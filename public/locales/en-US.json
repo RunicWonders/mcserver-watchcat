@@ -7,15 +7,18 @@
   "watch-btn": "Start Observing | Stop Observing",
   "refresh-interval": "per {refresh} seconds refresh rate",
   "field-required": "Required",
+  "loading": "Loading...",
   "invalid-ip": "Invalid IP!",
   "invalid-port": "Invalid port!",
   "invalid-server": "Invalid server address!",
-  "error-msgs": "( •́ _ •̀)？ Meow, server not found, are you forget start the server? | ∑(￣□￣;) Wow, no online players now meow!",
+  "server-offline": "( •́ _ •̀)？ Meow, server not found, are you forget start the server?",
   "players-list": "Online Players ({current}/{max}):",
+  "no-players": "∑(￣□￣;) Wow, no online players now meow!",
   "bedrock-player": "Bedrock Player",
   "online-player": "Genuine",
   "online-server": "Genuine Server",
   "save": "OK",
+  "add-server": "Add server to my bedrock client | Pls make sure the server was allowed bedrock player to join and the port is 19132.",
 
   "___": "settings",
   "auto-unfold-server-cfg": "Auto unfold server panel",
@@ -28,5 +31,5 @@
   "default-server-ip": "Default server IP",
   "default-server-port": "Default server port",
   "advanced": "Advanced",
-  "use-proxy-api": "Use proxy API (Beta)"
+  "use-proxy-api": "Use proxy API (Thanks Mengze)"
 }

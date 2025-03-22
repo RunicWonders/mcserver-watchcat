@@ -7,22 +7,31 @@
   "watch-btn": "開始視奸 | 停止視奸",
   "refresh-interval": "每{refresh}秒更新",
   "field-required": "必填字段",
+  "loading": "載入中...",
   "invalid-ip": "無效的 IP 地址",
   "invalid-port": "無效的端口號碼",
   "invalid-server": "無效的伺服器",
-  "error-msgs": "( •́ _ •̀)？ 哦嚯, 伺服器没找到喔, 你是不是忘記開啟伺服器了嘞? | ∑(￣□￣;) 啊嘞嘞, 伺服器裏面沒有在綫玩家喔!",
+  "server-offline": "( •́ _ •̀)？ 哦嚯, 伺服器没找到喔, 你是不是忘記開啟伺服器了嘞?",
   "players-list": "目前在綫玩家 ({current}/{max}):",
+  "no-players": "∑(￣□￣;) 啊嘞嘞, 伺服器裏面沒有在綫玩家喔!",
   "bedrock-player": "基岩版玩家",
   "online-player": "正版玩家",
   "online-server": "正版伺服器",
+  "add-server": "加入基岩版伺服器列表 | 請確保伺服器支持基岩版進入并且端口為19132",
 
 
   "___": "settings",
+  "settings": "設定",
+  "general": "一般設定",
   "auto-unfold-server-cfg": "自動展開伺服器設定欄位",
   "bedrock-player-use-geyser-icon": "基岩版玩家使用 Geyser 圖示",
   "show-FP": "顯示伺服器假人",
   "show-player-uuid": "顯示玩家 UUID",
   "check-player-genuine": "檢查是不是正版玩家 (沒有實現)",
   "auto-refresh": "自動刷新",
-  "refresh-rate": "刷新間隔"
+  "refresh-rate": "刷新間隔",
+  "default-server-ip": "默認伺服器地址",
+  "default-server-port": "默認伺服器端口",
+  "advanced": "高級設定",
+  "use-proxy-api": "使用代理 API (感謝梦泽)"
 }
