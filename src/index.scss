@@ -21,6 +21,19 @@
 	overflow: auto;
 }
 
+#server-card {
+	background-image: url('./assets/background.webp');
+	background-size: cover;
+	& .v-card-title, .v-card-subtitle, .v-card-text, .v-avatar {
+		border-radius: 0.2rem;
+		background-color: rgba($color: var(--v-theme-background), $alpha: var(--v-medium-emphasis-opacity));
+	}
+}
+
+#player-list>:not(:first-child) {
+	margin-top: 0.6rem;
+}
+
 html {
 	overflow: hidden;
 }
@@ -29,5 +42,11 @@ html {
 	#main {
 		width: 90%;
 		left: calc(50% - 45%);
+	}
+}
+
+@media screen and (prefers-color-scheme: dark) {
+	#server-card {
+		background-image: url('./assets/background-dark.webp');
 	}
 }
