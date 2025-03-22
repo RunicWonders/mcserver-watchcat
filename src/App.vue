@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import i18n, { loadLocaleMessages, setLocale, locales } from './i18n';
-import { useTheme } from 'vuetify';
 import mcqueryOutsideapi from './libs/mcquery-outsideapi';
+import Menu from './components/Menu.vue';
 
 async function checkSettings() {
 	const old_ = JSON.parse(localStorage.getItem('settings') || 'false');
@@ -14,39 +13,44 @@ async function checkSettings() {
 	return old_;
 }
 
-let theme = useTheme();
-
 const showSettings = ref(false);
 const isLoaded = ref(false);
 const isMobile = ref(false);
 const settings = ref({} as any);
+const msg = ref('loading');
 
 const ip = ref('');
 const port = ref(25565);
 const server = ref({
 	icon: '/assets/default.png',
 	name: 'A Minecraft Server',
-	version: 'unknown (null)',
+	motd: 'A Minecraft Server',
+	version: '? (unknown protocol)',
 	players: {
-		online: 'unknown',
-		max: 'unknown',
+		online: '?',
+		max: '?',
 		list: []
 	}
 });
-
-function switchTheme() {
-	theme.global.name.value = theme.global.name.value === 'dark'? 'light': 'dark';
-}
 
 async function updateServer() {
 	try {
 		isLoaded.value = false;
 		const data = await mcqueryOutsideapi(0, ip.value, port.value, settings.value.useProxyApi);
+		if(typeof data === 'string') {
+			msg.value = data;
+			return;
+		}
 		server.value = await (await import('./libs/parseServerData')).default(data);
+		if(server.value.players.online === 0) {
+			msg.value = 'no-players';
+		}
 		console.log('[app] Server data updated:', server.value);
 		isLoaded.value = true;
 	} catch(e: any) {
 		console.error('[app] Error while updating server data:', e.message);
+
+		isLoaded.value = true;
 	}
 }
 
@@ -64,14 +68,13 @@ function checkGenuine(username: string, uuid: string) {
 	}
 }
 
+function openSettings() {
+	showSettings.value = true;
+}
+
 function saveSettings() {
 	localStorage.setItem('settings', JSON.stringify(settings.value));
 	location.reload();
-}
-
-async function switchLocale(locale: string) {
-	if(!i18n.global.availableLocales.includes(locale)) await loadLocaleMessages(locale);
-	setLocale(locale);
 }
 
 onMounted(async() => {
@@ -95,7 +98,6 @@ onMounted(async() => {
 		:elevation="4"
 		border
 		rounded
-		v-theme="theme"
 		id="main"
 	>
 		<span class="d-flex justify-between align-center">
@@ -103,41 +105,13 @@ onMounted(async() => {
 			<v-btn variant="plain" icon="mdi-dots-vertical" v-if="isMobile">
 				<v-icon>mdi-dots-vertical</v-icon>
 				<v-menu bottom left activator="parent">
-					<v-list>
-						<v-btn variant="plain" icon="mdi-refresh" @click="updateServer"></v-btn>
-						<v-btn variant="plain" icon="mdi-cog" @click="showSettings = true"></v-btn>
-						<v-btn variant="plain" icon="mdi-theme-light-dark" @click="switchTheme"></v-btn>
-						<v-btn variant="plain" icon="mdi-translate">
-							<v-icon>mdi-translate</v-icon>
-							<v-menu bottom activator="parent">
-								<v-list>
-									<v-list-item v-for="locale in locales" @click="switchLocale(locale[0])">
-										<v-list-item-title>{{ locale[1] }}</v-list-item-title>
-									</v-list-item>
-								</v-list>
-							</v-menu>
-						</v-btn>
-					</v-list>
+					<v-list><Menu :refresh="updateServer" :settings="openSettings" /></v-list>
 				</v-menu>
 			</v-btn>
-			<span v-else>
-				<v-btn variant="plain" icon="mdi-refresh" @click="updateServer"></v-btn>
-				<v-btn variant="plain" icon="mdi-cog" @click="showSettings = true"></v-btn>
-				<v-btn variant="plain" icon="mdi-theme-light-dark" @click="switchTheme"></v-btn>
-				<v-btn variant="plain" icon="mdi-translate">
-					<v-icon>mdi-translate</v-icon>
-					<v-menu bottom activator="parent">
-						<v-list>
-							<v-list-item v-for="locale in locales" @click="switchLocale(locale[0])">
-								<v-list-item-title>{{ locale[1] }}</v-list-item-title>
-							</v-list-item>
-						</v-list>
-					</v-menu>
-				</v-btn>
-			</span>
+			<span v-else><Menu :refresh="updateServer" :settings="openSettings" /></span>
 		</span>
 		
-		<v-expansion-panels class="my-4" variant="inset" :model-value="settings.autoUnfoldServerCfg? 0: null">
+		<v-expansion-panels color="info" class="my-4" variant="inset" :model-value="settings.autoUnfoldServerCfg? 0: null">
 			<v-expansion-panel>
 				<v-expansion-panel-title class="text-h6">{{ $t('server') }}</v-expansion-panel-title>
 				<v-expansion-panel-text>
@@ -164,7 +138,7 @@ onMounted(async() => {
 				</span>
 				<v-card-text :innerHTML="server.motd"></v-card-text>
 				<v-card-actions>
-					<!-- <v-btn>Click me</v-btn> -->
+					<v-btn :to="`minecraft://?addExternalServer=${server.name}|${ip}:${port}`">{{ $t('add-server') }}</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-container>
@@ -172,7 +146,7 @@ onMounted(async() => {
 		<v-container>
 			<v-row class="text-h5">{{ $t('players-list', { current: server.players.online, max: server.players.max }) }}</v-row>
 			<v-row class="text-h6">{{ $t('refresh-interval', {refresh: settings.refreshInterval}) }}</v-row>
-			<v-row>
+			<v-row id="player-list" align-content="space-around" justify="space-around">
 				<v-card v-for="player in server.players.list" v-if="server.players.list.length > 0" v-show="player.name_clean.match(/fp|bot/)? settings.showFP: true">
 					<span class="card-title d-flex align-center">
 						<v-avatar size="48" :image="player.uuid.startsWith('00000000')? (settings.bedrockPlayerUseGeyserIcon? '/assets/Geyser_Icon.png': '/assets/Bedrock_Icon.png'): `https://crafatar.com/avatars/${player.uuid.replace(/-/g, '')}?size=64&overlay=true`"></v-avatar>
@@ -186,8 +160,14 @@ onMounted(async() => {
 					</span>
 					<v-card-text><code v-if="settings.showPlayerUUID">{{ player.uuid }}</code></v-card-text>
 				</v-card>
+				<v-alert v-else-if="!isLoaded && msg === 'loading'" color="info" class="mt-4" :value="true">
+					<v-alert-title>
+						<v-progress-circular color="blue-lighten-3" indeterminate></v-progress-circular>
+						<span style="margin-left: 6px;">{{ $t('loading') }}</span>
+					</v-alert-title>
+				</v-alert>
 				<v-alert v-else color="error" class="mt-4" :value="true">
-					<v-alert-title>{{ $t('error-msgs', 2) }}</v-alert-title>
+					<v-alert-title>{{ $t(msg) }}</v-alert-title>
 				</v-alert>
 			</v-row>
 		</v-container>
