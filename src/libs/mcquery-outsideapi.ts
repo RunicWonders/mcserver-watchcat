@@ -26,11 +26,12 @@ export default async(api: number, host: string, port?: number, useProxy: boolean
 		return await fetchData(url);
 	} catch (e: any) {
 		console.error('[query-outsideapi]', e);
+		return 'server-offline';
 		if(retry) {
 			api++;
 			if(api > apis.length - 1) {
 				console.error('[query-outsideapi] All APIs failed');
-				return;
+				return 'server-offline';
 			}
 			const url = generateUrl();
 			return await fetchData(url);
