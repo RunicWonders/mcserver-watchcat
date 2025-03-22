@@ -56,7 +56,7 @@ async function updateServer() {
 
 function checkGenuine(username: string, uuid: string) {
 	try {
-		fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`, { method: 'GET' })
+		fetch(`https://proxy.mengze.vip/proxy/https://api.mojang.com/users/profiles/minecraft/${username}`, { method: 'GET' })
 			.then(response => response.json())
 			.then(data => {
 				console.log('[app] Genuine check:', data.id, uuid.replace(/-/g, ''));
@@ -66,6 +66,10 @@ function checkGenuine(username: string, uuid: string) {
 		console.error('[app] Error while checking genuine:', e.message);
 		return null;
 	}
+}
+
+function openExternalLink(url: string) {
+	window.open(url, '_blank', 'noopener');
 }
 
 function openSettings() {
@@ -138,7 +142,10 @@ onMounted(async() => {
 				</span>
 				<v-card-text :innerHTML="server.motd"></v-card-text>
 				<v-card-actions>
-					<v-btn :to="`minecraft://?addExternalServer=${server.name}|${ip}:${port}`">{{ $t('add-server') }}</v-btn>
+					<v-btn color="info" @click="openExternalLink(`minecraft://?addExternalServer=${server.name}|${ip}:19132`)">
+						{{ $t('add-server') }}
+						<v-tooltip bottom activator="parent">{{ $t('add-server', 2) }}</v-tooltip>
+					</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-container>
