@@ -9,6 +9,10 @@ function switchTheme() {
 	theme.global.name.value = theme.global.name.value === 'dark'? 'light': 'dark';
 }
 
+function openExternalLink(url: string) {
+	window.open(url, '_blank', 'noopener');
+}
+
 const props = defineProps({
 	refresh: {
 		type: Function,
@@ -22,6 +26,7 @@ const props = defineProps({
 </script>
 
 <template>
+	<v-btn variant="plain" icon="mdi-github" @click="openExternalLink('https://github.com/LateDreamXD/mcserver-watchcat')"></v-btn>
 	<v-btn variant="plain" icon="mdi-refresh" @click="props.refresh()"></v-btn>
 	<v-btn variant="plain" icon="mdi-cog" @click="props.settings()"></v-btn>
 	<v-btn variant="plain" icon="mdi-theme-light-dark" @click="switchTheme"></v-btn>
