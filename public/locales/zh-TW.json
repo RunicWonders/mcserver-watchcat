@@ -15,7 +15,7 @@
   "players-list": "目前在綫玩家 ({current}/{max}):",
   "no-players": "∑(￣□￣;) 啊嘞嘞, 伺服器裏面沒有在綫玩家喔!",
   "bedrock-player": "基岩版玩家",
-  "online-player": "正版玩家",
+  "online-player": "<span style=\"color: #ff0000;\">正</span><span style=\"color: #55aa00;\">版</span><span style=\"color: #00aa55;\">玩</span><span style=\"color: #0000ff;\">家</span>",
   "online-server": "正版伺服器",
   "add-server": "加入基岩版伺服器列表 | 請確保伺服器支持基岩版進入并且端口為19132",
 
@@ -27,7 +27,7 @@
   "bedrock-player-use-geyser-icon": "基岩版玩家使用 Geyser 圖示",
   "show-FP": "顯示伺服器假人",
   "show-player-uuid": "顯示玩家 UUID",
-  "check-player-genuine": "檢查是不是正版玩家 (沒有實現)",
+  "check-player-genuine": "檢查是不是正版玩家",
   "auto-refresh": "自動刷新",
   "refresh-rate": "刷新間隔",
   "default-server-ip": "默認伺服器地址",
