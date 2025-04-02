@@ -18,12 +18,13 @@ const isLoaded = ref(false);
 const isMobile = ref(false);
 const settings = ref({} as any);
 const msg = ref('loading');
+const genuineMap = ref<Record<string, boolean>>({});
 
 const ip = ref('');
 const port = ref(25565);
 const server = ref({
 	icon: '/assets/default.png',
-	name: 'A Minecraft Server',
+	name: 'Unknown Server',
 	motd: 'A Minecraft Server',
 	version: '? (unknown protocol)',
 	players: {
@@ -47,24 +48,33 @@ async function updateServer() {
 		}
 		console.log('[app] Server data updated:', server.value);
 		isLoaded.value = true;
+		settings.value.checkPlayerGenuine && (await checkGenuine());
+		console.log('[app] Genuine map:', genuineMap.value);
 	} catch(e: any) {
-		console.error('[app] Error while updating server data:', e.message);
+		console.error('[app] Error while updating server data:', e);
 
 		isLoaded.value = true;
 	}
 }
 
-function checkGenuine(username: string, uuid: string) {
+async function checkGenuine() {
 	try {
-		fetch(`https://proxy.mengze.vip/proxy/https://api.mojang.com/users/profiles/minecraft/${username}`, { method: 'GET' })
-			.then(response => response.json())
-			.then(data => {
-				console.log('[app] Genuine check:', data.id, uuid.replace(/-/g, ''));
-				if(data.id === uuid.replace(/-/g, '')) return true;
-			});
+		for(const player of server.value.players.list) {
+			if(player.uuid.startsWith('00000000')) {
+				console.log('[app] Skipping genuine check for bedrock player:', player.name_raw);
+				continue;
+			}
+			const res = await fetch(`https://proxy.mengze.vip/proxy/https://api.mojang.com/users/profiles/minecraft/${player.name_raw}`);
+			const data = await res.json();
+			console.log(data);
+			if(data.id === player.uuid.replace(/-/g, ''))
+				genuineMap.value[player.name_raw] = true;
+			else genuineMap.value[player.name_raw] = false;
+			console.log('[app] Genuine check:', player.name_raw, player.uuid, data.id);
+		}
 	} catch(e: any) {
-		console.error('[app] Error while checking genuine:', e.message);
-		return null;
+		console.error('[app] Error while checking genuine:', e);
+		return false;
 	}
 }
 
@@ -82,7 +92,7 @@ function saveSettings() {
 }
 
 onMounted(async() => {
-	settings.value = await checkSettings(); // console.log('[app] Settings:', settings.value);
+	settings.value = await checkSettings();  console.log('[app] Settings:', settings.value);
 	await (ip.value = settings.value.defaultServer.ip);
 	await (port.value = settings.value.defaultServer.port);
 	updateServer();
@@ -93,6 +103,7 @@ onMounted(async() => {
 	});
 	isMobile.value = window.innerWidth < 768;
 });
+
 
 </script>
 
@@ -154,13 +165,13 @@ onMounted(async() => {
 			<v-row class="text-h5">{{ $t('players-list', { current: server.players.online, max: server.players.max }) }}</v-row>
 			<v-row class="text-h6">{{ $t('refresh-interval', {refresh: settings.refreshInterval}) }}</v-row>
 			<v-row id="player-list" align-content="space-around" justify="space-around">
-				<v-card v-for="player in server.players.list" v-if="server.players.list.length > 0" v-show="player.name_clean.match(/fp|bot/)? settings.showFP: true">
+				<v-card :data-name="player" v-for="player in server.players.list" v-if="server.players.list.length > 0" v-show="player.name_clean.match(/fp|bot/)? settings.showFP: true">
 					<span class="card-title d-flex align-center">
 						<v-avatar size="48" :image="player.uuid.startsWith('00000000')? (settings.bedrockPlayerUseGeyserIcon? '/assets/Geyser_Icon.png': '/assets/Bedrock_Icon.png'): `https://crafatar.com/avatars/${player.uuid.replace(/-/g, '')}?size=64&overlay=true`"></v-avatar>
 						<span>
 							<v-card-title>{{ player.name_clean }}</v-card-title>
 							<v-card-subtitle>
-								<span v-if="settings.checkPlayerGenuine? checkGenuine(player.name, player.uuid): false">{{ $t('genuine') }}</span>
+								<span class="online-player" v-if="settings.checkPlayerGenuine" :innerHTML="genuineMap[player.name_raw]? $t('online-player'): ''"></span>
 								<span v-if="player.uuid.startsWith('00000000')">{{ $t('bedrock-player') }}</span>
 							</v-card-subtitle>
 						</span>
@@ -195,7 +206,7 @@ onMounted(async() => {
 							<v-switch v-model="settings.bedrockPlayerUseGeyserIcon" :label="$t('bedrock-player-use-geyser-icon')"></v-switch>
 							<v-switch v-model="settings.showPlayerUUID" :label="$t('show-player-uuid')"></v-switch>
 							<v-switch v-model="settings.showFP" :label="$t('show-FP')"></v-switch>
-							<v-switch v-model="settings.checkPlayerGenuine" :label="$t('check-player-genuine')" disabled></v-switch>
+							<v-switch v-model="settings.checkPlayerGenuine" :label="$t('check-player-genuine')"></v-switch>
 						</v-col>
 						<v-col>
 							<v-switch v-model="settings.autoRefresh" :label="$t('auto-refresh')"></v-switch>
@@ -228,5 +239,16 @@ onMounted(async() => {
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
+
+		<p style="text-align: center; margin-top: 6px;">
+			Copyright (c) 2025 <a href="https://i.latedream.ggff.net" target="_blank" rel="noopener">LateDream</a>.<br />
+			Licensed under the <a href="https://github.com/LateDreamXD/mcserver-watchcat/blob/main/LICENSE" target="_blank" rel="noopener">ZML-2.0</a>.
+		</p>
 	</v-sheet>
 </template>
+
+<style scoped>
+.online-player {
+	text-shadow: 1px 1px 0 #fff8;
+}
+</style>

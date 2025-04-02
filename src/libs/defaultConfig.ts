@@ -7,8 +7,9 @@ export default {
 	bedrockPlayerUseGeyserIcon: false,
 	showFP: true,
 	showPlayerUUID: false,
-	checkPlayerGenuine: false,
+	checkPlayerGenuine: true,
 	autoRefresh: true,
 	refreshInterval: 10,
 	useProxyApi: false,
+	showConsoleLog: import.meta.env.DEV,
 }
