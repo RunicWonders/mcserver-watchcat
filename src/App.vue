@@ -149,9 +149,9 @@ onMounted(async() => {
 					<v-avatar size="64" :image="server.icon"></v-avatar>
 					<span>
 					<v-card-title>{{ server.name }} <span v-if="server.online_mode">{{ $t('online-server') }}</span></v-card-title>
-					<v-card-subtitle :innerHTML="server.version"></v-card-subtitle></span>
+					<v-card-subtitle v-html="server.version"></v-card-subtitle></span>
 				</span>
-				<v-card-text :innerHTML="server.motd"></v-card-text>
+				<v-card-text v-html="server.motd"></v-card-text>
 				<v-card-actions>
 					<v-btn color="info" @click="openExternalLink(`minecraft://?addExternalServer=${server.name}|${ip}:19132`)">
 						{{ $t('add-server') }}
@@ -171,7 +171,7 @@ onMounted(async() => {
 						<span>
 							<v-card-title>{{ player.name_clean }}</v-card-title>
 							<v-card-subtitle>
-								<span class="online-player" v-if="settings.checkPlayerGenuine" :innerHTML="genuineMap[player.name_raw]? $t('online-player'): ''"></span>
+								<span class="online-player" v-if="settings.checkPlayerGenuine" v-html="genuineMap[player.name_raw]? $t('online-player'): ''"></span>
 								<span v-if="player.uuid.startsWith('00000000')">{{ $t('bedrock-player') }}</span>
 							</v-card-subtitle>
 						</span>
