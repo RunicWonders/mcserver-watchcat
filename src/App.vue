@@ -152,7 +152,7 @@ onMounted(async() => {
 					<v-card-subtitle v-html="server.version"></v-card-subtitle></span>
 				</span>
 				<v-card-text v-html="server.motd"></v-card-text>
-				<v-card-actions>
+				<v-card-actions v-if="false">
 					<v-btn color="info" @click="openExternalLink(`minecraft://?addExternalServer=${server.name}|${ip}:19132`)">
 						{{ $t('add-server') }}
 						<v-tooltip bottom activator="parent">{{ $t('add-server', 2) }}</v-tooltip>
