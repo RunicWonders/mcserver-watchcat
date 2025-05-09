@@ -64,7 +64,7 @@ async function checkGenuine() {
 				console.log('[app] Skipping genuine check for bedrock player:', player.name_raw);
 				continue;
 			}
-			const res = await fetch(`https://proxy.mengze.vip/proxy/https://api.mojang.com/users/profiles/minecraft/${player.name_raw}`);
+			const res = await fetch(`https://latedream.cn/api/mc?id=${player.name_raw}`);
 			const data = await res.json();
 			console.log(data);
 			if(data.id === player.uuid.replace(/-/g, ''))
